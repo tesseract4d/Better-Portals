@@ -1,0 +1,7 @@
+{
+    "parent": "block/portal_ew",
+    "textures": {
+        "particle": "blocks/gateway_portal",
+        "portal": "blocks/gateway_portal"
+    }
+}

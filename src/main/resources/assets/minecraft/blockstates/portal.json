@@ -1,0 +1,22 @@
+{
+    "variants": {
+        "axis=z,variant=nether": {
+            "model": "portal_ew"
+        },
+        "axis=x,variant=nether": {
+            "model": "portal_ns"
+        },
+        "axis=z,variant=return": {
+            "model": "return_portal_ew"
+        },
+        "axis=x,variant=return": {
+            "model": "return_portal_ns"
+        },
+        "axis=z,variant=gateway": {
+            "model": "gateway_portal_ew"
+        },
+        "axis=x,variant=gateway": {
+            "model": "gateway_portal_ns"
+        }
+    }
+}
