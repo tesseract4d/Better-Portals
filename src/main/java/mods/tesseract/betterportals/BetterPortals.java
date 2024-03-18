@@ -9,16 +9,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.Logger;
 
 @Mod(name = "BetterPortals", modid = "betterportals")
 @Mod.EventBusSubscriber
 public class BetterPortals {
-    public static Logger log;
+    public static BetterPortalsConfig config;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
-        log = e.getModLog();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -28,7 +26,7 @@ public class BetterPortals {
     }
 
     @SubscribeEvent
-    public static void onLivingUpdtaeEvent(LivingEvent.LivingUpdateEvent e) {
+    public static void onLivingUpdateEvent(LivingEvent.LivingUpdateEvent e) {
         Entity f = e.getEntityLiving();
         if (!f.inPortal && f.timeUntilPortal < 0) {
             f.timeUntilPortal = 0;

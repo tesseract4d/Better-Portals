@@ -1,8 +1,11 @@
 package mods.tesseract.betterportals.block;
 
-import net.minecraft.block.*;
+import mods.tesseract.betterportals.BetterPortals;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockPortal;
+import net.minecraft.block.BlockStainedHardenedClay;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -36,7 +39,7 @@ public class BlockBetterPortal extends BlockPortal {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[]{AXIS, VARIANT});
+        return new BlockStateContainer(this, AXIS, VARIANT);
     }
 
     @Override
@@ -93,7 +96,7 @@ public class BlockBetterPortal extends BlockPortal {
                 if (entityIn.timeUntilPortal == 0) {
                     entityIn.timeUntilPortal = portalCooldown;
                 } else if (++entityIn.timeUntilPortal >= 0) {
-                    BlockPos p = null;
+                    BlockPos p;
                     if (t == EnumType.RETURN) {
                         p = worldIn.getTopSolidOrLiquidBlock(worldIn.getSpawnPoint());
                     } else {
@@ -277,26 +280,26 @@ public class BlockBetterPortal extends BlockPortal {
 
         public void placePortalBlocks() {
             IBlockState b = Blocks.PORTAL.getDefaultState();
-            Boolean f = false;
+            boolean f = true;
             switch (world.provider.getDimension()) {
                 case 0:
                     for (int i = 0; i < width; ++i) {
                         if (world.getBlockState(bottomLeft.offset(rightDir, i).down(2)) == Blocks.BEDROCK.getDefaultState()) {
-                            f = true;
+                            f = false;
                             break;
                         }
                     }
                     break;
                 case -1:
-                    f = true;
+                    f = false;
             }
 
-            if (f) {
-                b = b.withProperty(BlockBetterPortal.VARIANT, EnumType.NETHER);
-            } else if (isValidGateway()) {
+            if (BetterPortals.config.GATEWAY_PORTAL && isValidGateway()) {
                 b = b.withProperty(BlockBetterPortal.VARIANT, EnumType.GATEWAY);
-            } else {
+            } else if (BetterPortals.config.RETURN_PORTAL && f) {
                 b = b.withProperty(BlockBetterPortal.VARIANT, EnumType.RETURN);
+            } else {
+                b = b.withProperty(BlockBetterPortal.VARIANT, EnumType.NETHER);
             }
             for (int i = 0; i < width; ++i) {
                 BlockPos blockpos = bottomLeft.offset(rightDir, i);
